@@ -3,11 +3,13 @@ package com.API.countryBankInfo.services;
 import com.API.countryBankInfo.entities.PaisEntity;
 import com.API.countryBankInfo.models.APIResponse;
 import com.API.countryBankInfo.repositories.PaisRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class PaisService {
 
@@ -45,6 +47,17 @@ public class PaisService {
     }
 
     public void addCountryInfoRegister(PaisEntity paisEntity){
-        paisRepository.save(paisEntity);
+        try{
+            paisRepository.save(paisEntity);
+        }catch (Exception e){
+            log.error("Erro ao inserir informações do pais: " + paisEntity);
+        }
+
+    }
+
+    public void addCountryList(List<PaisEntity> paisEntities){
+        for (PaisEntity pais : paisEntities){
+            paisRepository.save(pais);
+        }
     }
 }
